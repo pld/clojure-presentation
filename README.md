@@ -4,6 +4,17 @@ title: (cons 'introduction (cons 'to (cons 'clojure '())))
 
 ## (cons 'introduction (cons 'to (cons 'clojure '())))
 
+<br/>
+<br/>
+<br/>
+
+### November 25th, 2013
+
+<br/>
+
+### Ivan Willig and Peter Lubell-Doughtie
+### Intent Media
+
 ---
 
 ## Outline
