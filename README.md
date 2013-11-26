@@ -859,10 +859,18 @@ From [tasks.generate-signals]()
 
 ---
 
-## Questions?
-
 
 ## Thank you
+
+<br/>
+
+## Questions?
+
+<br/>
+<br/>
+
+### Try Clojure in your browser, [http://tryclj.com/](http://tryclj.com/)
+
 ---
 
 ## Credits
