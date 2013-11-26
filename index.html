@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>(cons 'introduction (cons 'to (cons 'clojure '())))</title>
+    <link href="css/reset.css" rel="stylesheet" />
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="css/favicon.png" />
+    <link rel="apple-touch-icon" href="css/apple-touch-icon.png" />
+    <!-- Code Prettifier: -->
+<link href="css/highlight.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,900" rel="stylesheet" />
+
+  </head>
+
+  <body>
+  <div class="fallback-message">
+  <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+  <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+  </div>
+    <div id="impress">
+    <div class='step' >
+    
+<h2>(cons &#39;introduction (cons &#39;to (cons &#39;clojure &#39;())))</h2>
+
+<p><br/>
+<br/>
+<br/></p>
+
+<h3>November 25th, 2013</h3>
+
+<p><br/></p>
+
+<h3>Ivan Willig and Peter Lubell-Doughtie</h3>
+
+<h3>Intent Media</h3>
+</div>
+      <div class='step' >
+    
+<h2>Outline</h2>
+
+<ul>
+<li>What is Clojure
+
+<ul>
+<li>Comparison to Java and JavaScript</li>
+</ul></li>
+<li>Examples from the IM code base
+
+<ul>
+<li>Java Interoperability</li>
+</ul></li>
+<li>What makes Clojure a Lisp</li>
+<li>What makes Clojure functional</li>
+<li>Classless abstraction</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>Why this talk?</h2>
+</div>
+      <div class='step' >
+    
+<h2>What is Clojure?</h2>
+
+<p><img src="rich-hickey-function.png" alt="Rich Hickey"></p>
+
+<ul>
+<li>Clojure was created by Rich Hickey in 2007</li>
+<li>Clojure is a <em>functional Lisp</em> targeting the JVM and JavaScript</li>
+<li>Compromise between functional programming and what is possible
+on the JVM and in the browser.</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>What is Clojure?</h2>
+
+<ul>
+<li>Clojure has persistent and <em>lazy</em> data structures - <a href="http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504">Purely Functional Structures</a></li>
+</ul>
+<pre><code class='prettyprint clojure'>(take 4 (range 10000))
+</code></pre>
+<ul>
+<li>Pure functions are the building blocks</li>
+<li>Clojure works hard to keep the notion of <em>identity</em> separate from <em>state</em>
+
+<ul>
+<li><em>State</em> does not determine <em>identity</em></li>
+<li>This allows for consistent notions of equality</li>
+</ul></li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>What makes Clojure a Lisp?</h2>
+
+<ul>
+<li>Lisp is a family of programming languages that use lists to
+represent code</li>
+<li>Everything is in prefix notion <code class='inline prettyprint'>(+ 1 2 3 4)</code></li>
+<li>These are called s-expressions</li>
+<li>Everything inside of an <code class='inline prettyprint'>s-exp</code> is called an atom</li>
+</ul>
+
+<p>Calling a function in JavaScript</p>
+<pre><code class='prettyprint javascript'>funName(arg1, arg2, arg3);
+</code></pre>
+<p><br/></p>
+
+<p>Calling a function in Clojure</p>
+<pre><code class='prettyprint clojure'>(fun-name arg1 arg2 arg3)
+</code></pre>
+<p><a href="http://www.amazon.com/The-Little-Schemer-4th-Edition/dp/0262560992">See Little Schemer</a></p>
+</div>
+      <div class='step' >
+    
+<h2>How Clojure compares to JavaScript</h2>
+</div>
+      <div class='step' >
+    
+<h2>Defining variables</h2>
+
+<p><br/></p>
+
+<p>Defining variables in JavaScript</p>
+<pre><code class='prettyprint javascript'>var now = new Date();
+</code></pre>
+<p><br/></p>
+
+<p>Defining variables in Clojure</p>
+<pre><code class='prettyprint clojure'>(def now (Date.))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Calling instance methods</h2>
+
+<p><br/></p>
+
+<p>Calling instance methods in JavaScript or Java</p>
+<pre><code class='prettyprint javascript'>now.getDay();
+</code></pre>
+<p><br/></p>
+
+<p>Calling JavaScript or Java instance methods in Clojure</p>
+<pre><code class='prettyprint clojure'>(.getDay now) ;; call a method without arguments
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Calling static methods</h2>
+
+<p><br/></p>
+
+<p>Calling a static method in JavaScript or Java</p>
+<pre><code class='prettyprint javascript'>Date.parse("March 21, 2012");
+</code></pre>
+<p><br/></p>
+
+<p>Calling a static JavaScript or Java method in Clojure</p>
+<pre><code class='prettyprint clojure'>(Date/parse "March 21, 2012") ;; 1332302400000
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining functions</h2>
+
+<p><br/></p>
+
+<p>Defining a function in JavaScript</p>
+<pre><code class='prettyprint javascript'>var add10 = function (x) { return x + 10; };
+
+function add10(x) { return x + 10; };
+</code></pre>
+<p><br/></p>
+
+<p>Defining a function in Clojure</p>
+<pre><code class='prettyprint clojure'>(fn [x] (- 20 x)
+
+(def add10 (fn [x] (+ 10 x)))
+
+(defn add10 [x] (+ 10 x))
+
+(add10 -4) ;; 6
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining functions</h2>
+
+<p>Taking variable arguments in a function</p>
+<pre><code class='prettyprint javascript'>var reduce_PLUS = function () {
+    var args = Array.prototype.slice.call(arguments);
+    return plus.apply(this, args);
+};
+
+reduce_PLUS(1, 2, 3); // 6
+</code></pre>
+<p><br/></p>
+<pre><code class='prettyprint clojure'>(defn reduce+ [& args] (apply + args))
+
+(reduce+ 1 2 3) ;; 6
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining functions</h2>
+
+<h3>Function with different arity</h3>
+<pre><code class='prettyprint clojure'>(defn argcount
+  ([] 0)
+  ([x] 1)
+  ([x y] 2)
+  ([x y & more] (+ (argcount x y) (count more))))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining functions</h2>
+
+<p>From <a href="">util.math</a></p>
+<pre><code class='prettyprint clojure'>(defn round [x precision]
+  (MathUtils/round x precision))
+
+(round 5.5 0) ;; 6.0
+</code></pre>
+<p><br/></p>
+
+<p>From <a href="">util.time</a></p>
+<pre><code class='prettyprint clojure'>(defn get-requested-at [typed-data]
+  (SystemTimeFactory/getMillis
+   (.getRequestedAt typed-data)))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining functions</h2>
+
+<p>From <a href="">util.cascalog</a></p>
+<pre><code class='prettyprint clojure'>(defn within-window?
+  "True if t2 between t1 and a window amount of time
+ after t1."
+  [t1 window t2]
+  (and
+   (< t1 t2)
+   (< t2 (+ t1 window))))
+
+(within-window? 3 1 3.9) ;; true
+(within-window? 3 1 4)   ;; false
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Namespaces</h2>
+
+<p>a.clj</p>
+<pre><code class='prettyprint clojure'>(ns a
+  (:import [java Math]))
+
+(def var "10")
+(defn parse-int [x]
+    (when-not (integer? x)
+        (Integer/parseInt x)))
+</code></pre>
+<p>b.clj</p>
+<pre><code class='prettyprint clojure'>(ns b
+ (:use     [a])
+ (:use     [a :only (parse-int)])
+ (:require [a :as utils]))
+
+(utils/parse-int "10")
+(utils/parse-int 10)
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Clojure basic collections</h2>
+
+<ul>
+<li>lists      <code class='inline prettyprint'>(1 2)</code></li>
+<li>vectors    <code class='inline prettyprint'>[1 2]</code></li>
+<li>sets       <code class='inline prettyprint'>#{1 2}</code></li>
+<li>hash-maps  <code class='inline prettyprint'>{:a 1}</code></li>
+<li><p>strings    <code class='inline prettyprint'>"string"</code> (only some seq functions work on strings)</p></li>
+<li><p>Collections in clojure are <code class='inline prettyprint'>polymorphic</code></p></li>
+</ul>
+<pre><code class='prettyprint clojure'>(def a [1 "string" :keyword {:key "value"}])
+
+(def a {:a 1 :b "number"})
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Seq functions</h2>
+
+<ul>
+<li>All of clojure&#39;s seq functions are <code class='inline prettyprint'>polymorphic</code>. That is they
+operate on different types of collections. For example,</li>
+</ul>
+<pre><code class='prettyprint clojure'>(conj [] :a)         ;; [:a]
+
+(conj {:a 1} [:b 2]) ;; {:b 2, :a 1}
+
+(conj #{:a} :b)      ;; #{:a :b}
+</code></pre>
+<ul>
+<li>Conj is smart about what type it is given.
+
+<ul>
+<li>Attempts to do the fast operation for each type.</li>
+<li>Returns the same type you give it.</li>
+</ul></li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>Lazy data structures</h2>
+
+<p>Add <code class='inline prettyprint'>doall</code> to evaluate an expression</p>
+
+<p>From <a href="">extract.signals-test</a></p>
+<pre><code class='prettyprint clojure'>(doall (map
+        signals-tests-for-site
+        [SiteType/SITE1
+         SiteType/SITE2
+         SiteType/SITE3
+         SiteType/SITE4]))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Data structures are persistent</h2>
+
+<ul>
+<li>Persistence means that values never change</li>
+<li>Because values never change they can be shared by data structures</li>
+</ul>
+<pre><code class='prettyprint clojure'>(def a [1 2 3])
+(def b (conj 0 a))
+</code></pre><pre><code class='prettyprint clojure'>(= a [1 2 3]) ;; true
+(= b [0 1 2 3]) ;; true
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Data structures are persistent</h2>
+
+<ul>
+<li>Clojure represents this efficiently by sharing memory</li>
+</ul>
+
+<p><br/></p>
+
+<p><img src="shared-memory.png" alt="shared memory"></p>
+</div>
+      <div class='step' >
+    
+<h1><code class='inline prettyprint'>vector</code></h1>
+<pre><code class='prettyprint clojure'>(def a [1 2 3])       ;; create
+(cons 1 [])           ;; '(1)
+(cons 1 [2 3])        ;; '(1 2 3)
+(count a)             ;; 3
+(first a)             ;; 1
+(second a)            ;; 2
+(rest  a)             ;; [2 3]
+(contains? [1 2 3] 0) ;; true
+(contains? [1 2 3] 3) ;; false
+(a 0)                 ;; 1
+(get a 1)             ;; 2
+(get a 10 :default)   ;; :default
+(nth a 1)             ;; 2
+(nth a 10)            ;; throw IndexOutOfBoundsException
+</code></pre></div>
+      <div class='step' >
+    
+<h1><code class='inline prettyprint'>hash-map</code></h1>
+
+<p>A collection of key value pairs</p>
+<pre><code class='prettyprint clojure'>(def ivan {:name "Ivan Willig"
+           :age 28
+           :address "360 Adams Street"})
+
+(count ivan)            ;; 3
+(keys ivan)             ;; (:age :name :address)
+(vals ivan)             ;; (28 "Ivan Willig" "360 Adams Street")
+
+(:name ivan)            ;; "Ivan Willig"
+(:age  ivan)            ;; 28
+
+(contains? ivan :name)  ;; true
+</code></pre></div>
+      <div class='step' >
+    
+<h1><code class='inline prettyprint'>hash-map</code></h1>
+<pre><code class='prettyprint clojure'>(get ivan :name)            ;; "Ivan Willig"
+(get ivan :sane? "No !!!")  ;; "No !!!"
+
+(assoc ivan :mood "good")
+;; {:age 28, :name "Ivan Willig", :mood "Good", 
+;;  :address "360 Adams Street"}
+
+(conj ivan ["mood" "good"])
+;; {:age 28, :name "Ivan Willig", "mood" "good",
+;;  :address "360 Adams Street"}
+
+(println ivan)
+;; {:age 28, :name "Ivan Willig", :address "360 Adams Street"}
+</code></pre></div>
+      <div class='step' >
+    
+<h1><code class='inline prettyprint'>set</code></h1>
+
+<p>A collection of distinct elements</p>
+<pre><code class='prettyprint clojure'>(require '[clojure.set :as s])
+
+(def a   #{1 2 3 4 5})
+
+(def b   #{2 3 4})
+
+(def c   #{6 7 8 9 10})
+
+(s/subset? b a) ;; true
+
+(s/union a c) ;; #{1 2 3 4 5 6 7 8 9 10}
+
+(s/select integer? #{1 2 3 :a :b :c}) ;; #{1 2 3}
+</code></pre></div>
+      <div class='step' >
+    
+<h1><code class='inline prettyprint'>map, reduce, filter</code></h1>
+<pre><code class='prettyprint clojure'>(map inc [1 2 3 4 5])
+;; (2 3 4 5 6)
+(reduce + [1 2 3 4 5])
+;; 15
+(reduce + 10 [1 2 3 4 5])
+;; 25)
+(filter (fn [x] (< x 10)) [1 2 3 10 23 45])
+;; (1 2 3)
+</code></pre></div>
+      <div class='step' >
+    
+<h1>Iteration</h1>
+<pre><code class='prettyprint clojure'>(doseq [i [1 2 3]] (println i))
+;; 1
+;; 2
+;; 3
+;; 4
+;; nil
+
+(for [i [1 2 3 4 5]] (* 3 i))
+;; (3 6 9 12 15)
+</code></pre><pre><code class='prettyprint clojure'>(doseq [[key value] {:a 1 :b 2 :c 3 :d 4}]
+   (println key)
+   (println "---")
+   (println value))
+;; :a
+;; ---
+;; 1
+
+</code></pre></div>
+      <div class='step' >
+    
+<h1>Collections are functions</h1>
+<pre><code class='prettyprint clojure'>([1 2 3 4]  0)  ;; 1
+
+(#{1 2 3 4} 0)  ;; nil
+
+(#{1 2 3 4} 1)  ;; 1  ??? why
+
+({:name "thing"} :name) ;; "thing"
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining new types</h2>
+
+<p><br/></p>
+
+<p>Define a new type in JavaScript</p>
+<pre><code class='prettyprint javascript'>var Point = function (x, y) {
+    this.x = x;
+    this.y = y;
+};
+</code></pre>
+<p><br/></p>
+
+<p>Define a new type in Clojure</p>
+<pre><code class='prettyprint clojure'>(defrecord Point [x y])
+
+(def p (Point. 10 5))
+
+(print (:x p)) ;; 10
+(print (:y p)) ;; 5
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining new types</h2>
+
+<h3><code class='inline prettyprint'>defrecord</code></h3>
+<pre><code class='prettyprint clojure'>(defrecord Person [name age address])
+(def dude (Person. "John Smith" 35 "1234 Ave E"))
+(:name dude)     ;; "John Smith"
+(= dude (Person. "John Smith" 35 "1234 Ave E")) ;; true
+</code></pre>
+<p><br/></p>
+
+<p><code class='inline prettyprint'>defrecord</code> implements the following Clojure and Java interfaces</p>
+<pre><code class='prettyprint java'>clojure.lang.IObj
+clojure.lang.ILookup
+clojure.lang.IKeywordLookup
+clojure.lang.IPersistentMap
+java.util.Map
+java.io.Serializable
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Defining new types</h2>
+
+<h3><code class='inline prettyprint'>deftype</code></h3>
+
+<ul>
+<li>Creates a new Java Types that do not implement the Clojure collection
+interfaces.</li>
+</ul>
+<pre><code class='prettyprint clojure'>(deftype Person [name age address])
+
+(def dude (Person. "John Smith" 35 "1234 Ave E"))
+
+(.name dude) ;; "John Smith"
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Extending existing types</h2>
+
+<p><br/></p>
+
+<p>Extending existing types in JavaScript</p>
+<pre><code class='prettyprint javascript'>Point.prototype.distance = function (other) {
+    var dx = this.x - other.x,
+        dy = this.y - other.y;
+    return Math.sqrt(dx * dx + dy * dy);
+};
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Extending existing types in Clojure</h2>
+
+<ul>
+<li>creates a namespaced function</li>
+<li><code class='inline prettyprint'>Point</code> can also be a Java type</li>
+</ul>
+<pre><code class='prettyprint clojure'>(defprotocol IDistance
+    (distance [self other]))
+
+(extend-type Point
+  IDistance
+    (distance [self other]
+      (let [dx (- (:x self) (:x other))
+            dy (- (:y self) (:y other))]
+        (Math/sqrt (+ (* dx dx)
+                      (* dy dy))))))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Extending existing types in Clojure</h2>
+<pre><code class='prettyprint clojure'>(def p0 (Point. 3 10))
+
+(def p1 (Point. 6 6))
+
+(distance p0 p1) ;; 5.0
+
+(distance {:x 10 :y 10} p0) ;; throws 
+                            ;; IllegalArgumentException
+(distance p0 {:x 10 :y 10}) ;; 5.0
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Clojure is <em>homoiconic</em></h2>
+
+<ul>
+<li>which is a fancy word for saying that Lisp code is Lisp data.</li>
+</ul>
+
+<p>When we suspend evaluation we can work with the raw source code as a
+Lisp tree. All code can be thought of as a tree.</p>
+
+<p><br/></p>
+<pre><code class='prettyprint clojure'>(* (+ 2 (* 4 6))
+   (+ 3 5 7))
+</code></pre>
+<p><br/></p>
+
+<p><img src="algebra-tree.gif" alt="s-expr"></p>
+</div>
+      <div class='step' >
+    
+<h2>Macros</h2>
+
+<ul>
+<li>Metaprogramming</li>
+<li>Old, 1970s technology.</li>
+<li>Macros take and return <code class='inline prettyprint'>s-expr</code></li>
+<li>Different from C macros</li>
+<li>Are not around at runtime</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>Macros are different from functions</h2>
+
+<ul>
+<li>Arguments are not evaluated before being handed to macros</li>
+</ul>
+<pre><code class='prettyprint clojure'>(defn unless' [expr then] (if (not expr) then nil))
+
+(unless' false (println "should not run"))
+;; should not run
+
+(defmacro unless [expr then] `(if (not ~expr) ~then nil))
+
+(unless false (println "should not run"))
+;; nil
+
+(defn unless2 [expr form] (if (not expr) nil (form)))
+
+(unless2 false (fn [] (println "should not run")))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Macros</h2>
+
+<h3>Examples from clojure.core</h3>
+<pre><code class='prettyprint clojure'>(defmacro if-not
+  ([test then] `(if-not ~test ~then nil))
+  ([test then else]
+  `(if (not ~test) ~then ~else)))
+</code></pre><pre><code class='prettyprint clojure'>(defmacro when
+  [test & body]
+  (list 'if test (cons 'do body)))
+</code></pre><pre><code class='prettyprint clojure'>(defmacro when-not
+  [test & body]
+  (list 'if test nil (cons 'do body)))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Macros</h2>
+
+<h3>Debugging can be hard</h3>
+<pre><code class='prettyprint clojure'>(macroexpand '(when-not true false))
+;; (if true nil (do false))
+(macroexpand-1 '(when true (println "hello world")))
+;; (if true (do (println "hello world"))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Macros</h2>
+
+<h3>Not around at runtime</h3>
+
+<ul>
+<li>Actually a good thing as errors are thrown at compile time, not run
+time.</li>
+<li>Different from JavaScript&#39;s <code class='inline prettyprint'>eval</code>. Errors from <code class='inline prettyprint'>eval</code> are runtime</li>
+</ul>
+<pre><code class='prettyprint clojure'>(defmacro thing [x] (list 'if x x))  ;; silly example
+(macroexpand '(thing 10)
+;; (macroexpand '(thing false))
+(map thing '(true false 10 "Hello")) ;; throws CompilerException
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Macros</h2>
+
+<h3>Issues</h3>
+
+<ul>
+<li>There are many</li>
+<li>As with any meta programming, with power comes responsibility.</li>
+</ul>
+
+<h3>Benefits</h3>
+
+<ul>
+<li>Core language is small</li>
+<li>Clojure only has 16 special forms, rest are macros and functions</li>
+<li>pattern matching as a library <a href="https://github.com/clojure/core.match">clojure.match</a></li>
+<li>go async channels as a library <a href="https://github.com/clojure/core.async">clojure.async</a></li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>What makes clojure functional?</h2>
+
+<ul>
+<li>First class functions and closures</li>
+</ul>
+
+<p>From <a href="">math.model-metrics</a></p>
+<pre><code class='prettyprint clojure'>(defn- regression [betas signals]
+  (dot-product (cons 1 signals) betas))
+</code></pre><pre><code class='prettyprint clojure'>(defn- logistic-regression
+  "Compute 1/(1 + e^(-regression(beta, signals)))."
+  [beta signals]
+  (/ 1
+      (+ 1
+         (Math/exp (- (regression beta signals))))))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>What makes clojure functional?</h2>
+<pre><code class='prettyprint clojure'>(defn- make-predictions
+  [signals betas forecast]
+  (forecast betas signals))
+</code></pre>
+<ul>
+<li>Pass in a <code class='inline prettyprint'>forecast</code> function as an argument</li>
+</ul>
+<pre><code class='prettyprint clojure'>(make-predictions signals betas regression)
+(make-predictions signals betas logistic-regression)
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Examples from the Intent Media code base</h2>
+
+<p>From <a href="">extract.signals</a></p>
+
+<ul>
+<li>Combine generic features and site specific features</li>
+<li>Use a Lambda function to sort by feature name</li>
+</ul>
+<pre><code class='prettyprint clojure'>(defn sites->features[site-type]
+  (sort-by (fn [x] (.name x))
+           (concat generic-features
+                   (specific-features site-type))))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Destructuring in Clojure</h2>
+
+<p>Abstract structural bindings</p>
+<pre><code class='prettyprint clojure'>(def point [5 7])
+
+(let [[x y] point]
+  (println "x:" x " y:" y)) ;; x: 5 y: 7
+</code></pre>
+<p><br/></p>
+<pre><code class='prettyprint clojure'>(def point {:x 5 :y 7})
+
+(let [{x :x y :y} point]
+  (println "x:" x "y:" y))  ;; x: 5 y: 7
+
+(let [{:keys [x y]} point]
+  (println "x:" x "y:" y))  ;; x: 5 y: 7
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Examples from the Intent Media code base</h2>
+
+<p>From <a href="">tasks.generate-signals</a></p>
+
+<ul>
+<li>Called from Java to build signals for a site and product type</li>
+<li>Parse a list of pairwise arguments into a map</li>
+<li>Then destructure this map into specific variables and call a function</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>Examples from the Intent Media code base</h2>
+<pre><code class='prettyprint clojure'>(defn -main [& args]
+  (let [arg-map (parse-args args)
+        {:keys [-stepInputBaseUrl
+                -outputUrl
+                -testingDateFrom
+                -testingDateTo
+                -trainingDateFrom
+                -trainingDateTo
+                -siteType
+                -productCategoryType
+                -publisherType
+                -dataType]} arg-map
+        base-input-path (UrlHelper/decode -stepInputBaseUrl)
+        output-path (UrlHelper/decode -outputUrl)
+        publisher-type (PublisherType/valueOf -publisherType)
+        site-type (SiteType/valueOf -siteType)]
+        ;; some method call
+        ))
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Questions?</h2>
+
+<h2>Thank you</h2>
+</div>
+      <div class='step' >
+    
+<h2>Credits</h2>
+
+<p>Rich Hickey image from <a href="http://www.flyingmachinestudios.com/programming/the-unofficial-guide-to-rich-hickeys-brain/">a blog</a></p>
+
+<p>S-expr image from <a href="http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-10.html#%_sec_1.1.6">SICP</a></p>
+
+      </div>
+    <script src="js/impress.js"></script>
+    <script>impress().init();</script>
+  </body>
+</html>
+    
